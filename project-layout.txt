@@ -1,0 +1,7 @@
+MineCore/
+├── minecore-builder.sh
+├── inject/
+│   ├── minecore-configure.sh
+│   ├── mcctl.sh
+│   ├── minecraft.service
+│   └── sysctl-hardening.conf

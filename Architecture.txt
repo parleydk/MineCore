@@ -1,0 +1,21 @@
+[Fedora Host]
+   |
+   |---> [Script 1: minecore-builder.sh]
+   |       - Builds Debian rootfs with debootstrap
+   |       - Injects config, mcctl, systemd units
+   |       - Optionally builds ISO or OCI-compatible image
+   |
+   v
+[Debian Guest (chroot or VM)]
+   |
+   |---> [Script 2: minecore-configure.sh]
+   |       - Finalizes system config
+   |       - Sets up Minecraft runtime
+   |       - Applies hardening, firewall, snapshots
+   |
+   v
+[OCI Compute Instance]
+   |
+   |---> [Custom Image]
+           - Preconfigured, secure, auto-updating
+           - Ready for control panel integration
