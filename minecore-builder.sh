@@ -14,8 +14,27 @@ done
 
 if [ ${#missing[@]} -ne 0 ]; then
     echo "⚠️ Missing tools: ${missing[*]}"
-    read -p "Install missing tools manually and re-run. Press Enter to exit." _
-    exit 1
+    read -p "➡️ Attempt to install them now? [y/N] " confirm
+    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+        case "$distro" in
+            fedora|rhel|centos)
+                sudo dnf install -y "${missing[@]}"
+                ;;
+            debian|ubuntu)
+                sudo apt update && sudo apt install -y "${missing[@]}"
+                ;;
+            arch)
+                sudo pacman -Sy --noconfirm "${missing[@]}"
+                ;;
+            *)
+                echo "❌ Unsupported distro for auto-install. Please install manually."
+                exit 1
+                ;;
+        esac
+    else
+        echo "❌ Cannot proceed without required tools. Exiting."
+        exit 1
+    fi
 fi
 
 # Create rootfs
