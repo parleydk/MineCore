@@ -37,12 +37,19 @@ if [ ${#missing[@]} -ne 0 ]; then
     fi
 fi
 
-# Create rootfs
-read -p "➡️ Create Debian rootfs in ./minecore-root? [y/N] " confirm
-[[ "$confirm" == "y" || "$confirm" == "Y" ]] || exit 1
+# Set build directory
+BUILD_DIR="${HOME}/minecore-root"
 
-mkdir -p minecore-root
-sudo debootstrap --variant=minbase --arch=amd64 stable ./minecore-root http://deb.debian.org/debian
+echo "📁 Build directory set to: $BUILD_DIR"
+
+# Confirm creation
+read -p "➡️ Proceed to create Debian rootfs in $BUILD_DIR? [y/N] " confirm
+[[ "$confirm" =~ ^[Yy]$ ]] || exit 1
+
+# Create and build rootfs
+mkdir -p "$BUILD_DIR"
+sudo debootstrap --variant=minbase --arch=amd64 stable "$BUILD_DIR" http://deb.debian.org/debian
+
 
 # Inject files
 echo "📦 Injecting config files and scripts..."
